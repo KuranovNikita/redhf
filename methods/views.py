@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
-from .models import NgrokUrl
+from .models import NgrokUrl, ViberNgrokUrl
 
 
 # @csrf_exempt миксин чтобы не требовал токен
@@ -23,6 +23,34 @@ def setWebhook(request):
 
 @csrf_exempt 
 def rocketWebhook(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        data = json.dumps(data)
+        print(data)
+        header = {"Content-type": "application/json"}
+        dataUrl = NgrokUrl.objects.all()[:1].get()
+        print(dataUrl) 
+        r = requests.post(dataUrl, data=data, headers=header)       
+    return HttpResponse('request')
+
+
+@csrf_exempt 
+def viberSetNgrok(request):
+    text = request.GET.get('q', '')
+    dataUrl = ViberNgrokUrl.objects.all().first()
+    print(dataUrl)
+    if dataUrl:
+        ViberNgrokUrl.objects.all().update(ViberNgrokUrl=text)
+    else:
+        b = ViberNgrokUrl(ViberNgrokUrl=text)
+        b.save()
+    
+    return HttpResponse('request')
+
+
+@csrf_exempt 
+def viberWebhook(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         print(data)

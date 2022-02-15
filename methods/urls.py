@@ -4,4 +4,6 @@ from methods.views import *
 urlpatterns = [
     path('setWebhook', setWebhook),
     path('rocketWebhook', rocketWebhook),
+    path('viberSetNgrok', viberSetNgrok),
+    path('viberWebhook', viberWebhook),
 ]

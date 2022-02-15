@@ -6,3 +6,9 @@ class NgrokUrl(models.Model):
 
     def __str__(self):
         return self.NgrokUrl
+
+class ViberNgrokUrl(models.Model):
+    ViberNgrokUrl = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.ViberNgrokUrl
